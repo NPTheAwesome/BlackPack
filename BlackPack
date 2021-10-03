@@ -1,0 +1,1136 @@
+#!/usr/bin/env python3
+
+#Copyright 2021 Noah Panepinto
+	#Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+	#The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+	#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#This is a blackjack game called BlackPack. It has a few cool features, including using multiple decks, autoshuffling, and betting. 
+	#This is my OFFLINE only blackjack game, I am currently developing a version with online functionality.
+	#It's written in python3 and depends on random only, this is the linux version, it should however run on windows or macos when opened in a python interpreter. 
+	#It can be installed on linux by placing the file in /usr/bin or any prefered bin folder, and can be ran by calling BlackPack in bash.
+
+from random import randint
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define several characters that will be appended to strings to chang their colours when printed.
+
+class colours:
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    ENDC = '\033[0m'
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define several string arrays, which will contain the visual data used to represent each card within a standard deck of cards and the back of a standard card when printed.
+		#There are three seperate naming conventions used to name each representation, they are as follows:
+			#Back of Card Convention; This representation is called boc.
+			#Ace Card Convention; All Ace Cards are called aoX where X is the first letter of the name of the suite of the specific Card.
+			#Standard Card Convention; All Standard Cards, all Cards excluding Ace Cards and the Back of Card, 
+				#are called XYoZ where XY is the first two letters of the face value of the specific Card and where Z is the first letter of the name of the suite of the specific Card.
+		#The next 423 lines are dedicated to defining the visual representations of all of the cards in a standard deck.
+			#Yes seriously.
+				#Yes I could have put this in a seperate text file to make this code more readable, but I wrote this game in a week, on a cellphone. Cut me some slack would ya?
+
+boc  = [" ______  ",
+	"/######\\ ",
+	"|#######\\",
+	"|#######|",
+	"|#######|",
+	"|#######|",
+	"|#######|",
+       "\\#######/"]
+aos  = [" ______  ",
+	"/      \\ ",
+	"|A      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      A|",
+       "\\_______/"]
+aoc  = [" ______  ",
+	"/      \\ ",
+	"|A      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      A|",
+       "\\_______/"]
+aoh  = [" ______  ",
+	"/      \\ ",
+	"|A      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      A|",
+       "\\_______/"]
+aod  = [" ______  ",
+	"/      \\ ",
+	"|A      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      A|",
+       "\\_______/"]
+twos = [" ______  ",
+	"/      \\ ",
+	"|2      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      2|",
+       "\\_______/"]
+twoc = [" ______  ",
+	"/      \\ ",
+	"|2      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      2|",
+       "\\_______/"]
+twoh = [" ______  ",
+	"/      \\ ",
+	"|2      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      2|",
+       "\\_______/"]
+twod = [" ______  ",
+	"/      \\ ",
+	"|2      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      2|",
+       "\\_______/"]
+thos = [" ______  ",
+	"/      \\ ",
+	"|3      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      3|",
+       "\\_______/"]
+thoc = [" ______  ",
+	"/      \\ ",
+	"|3      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      3|",
+       "\\_______/"]
+thoh = [" ______  ",
+	"/      \\ ",
+	"|3      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      3|",
+       "\\_______/"]
+thod = [" ______  ",
+	"/      \\ ",
+	"|3      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      3|",
+       "\\_______/"]
+foos = [" ______  ",
+	"/      \\ ",
+	"|4      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      4|",
+       "\\_______/"]
+fooc = [" ______  ",
+	"/      \\ ",
+	"|4      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      4|",
+       "\\_______/"]
+fooh = [" ______  ",
+	"/      \\ ",
+	"|4      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      4|",
+       "\\_______/"]
+food = [" ______  ",
+	"/      \\ ",
+	"|4      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      4|",
+       "\\_______/"]
+fios = [" ______  ",
+	"/      \\ ",
+	"|5      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      5|",
+       "\\_______/"]
+fioc = [" ______  ",
+	"/      \\ ",
+	"|5      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      5|",
+       "\\_______/"]
+fioh = [" ______  ",
+	"/      \\ ",
+	"|5      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      5|",
+       "\\_______/"]
+fiod = [" ______  ",
+	"/      \\ ",
+	"|5      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      5|",
+       "\\_______/"]
+sios = [" ______  ",
+	"/      \\ ",
+	"|6      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      6|",
+       "\\_______/"]
+sioc = [" ______  ",
+	"/      \\ ",
+	"|6      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      6|",
+       "\\_______/"]
+sioh = [" ______  ",
+	"/      \\ ",
+	"|6      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      6|",
+       "\\_______/"]
+siod = [" ______  ",
+	"/      \\ ",
+	"|6      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      6|",
+       "\\_______/"]
+seos = [" ______  ",
+	"/      \\ ",
+	"|7      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      7|",
+       "\\_______/"]
+seoc = [" ______  ",
+	"/      \\ ",
+	"|7      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      7|",
+       "\\_______/"]
+seoh = [" ______  ",
+	"/      \\ ",
+	"|7      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      7|",
+       "\\_______/"]
+seod = [" ______  ",
+	"/      \\ ",
+	"|7      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      7|",
+       "\\_______/"]
+eios = [" ______  ",
+	"/      \\ ",
+	"|8      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      8|",
+       "\\_______/"]
+eioc = [" ______  ",
+	"/      \\ ",
+	"|8      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      8|",
+       "\\_______/"]
+eioh = [" ______  ",
+	"/      \\ ",
+	"|8      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      8|",
+       "\\_______/"]
+eiod = [" ______  ",
+	"/      \\ ",
+	"|8      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      8|",
+       "\\_______/"]
+nios = [" ______  ",
+	"/      \\ ",
+	"|9      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      9|",
+       "\\_______/"]
+nioc = [" ______  ",
+	"/      \\ ",
+	"|9      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      9|",
+       "\\_______/"]
+nioh = [" ______  ",
+	"/      \\ ",
+	"|9      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      9|",
+       "\\_______/"]
+niod = [" ______  ",
+	"/      \\ ",
+	"|9      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      9|",
+       "\\_______/"]
+teos = [" ______  ",
+	"/      \\ ",
+	"|X      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      X|",
+       "\\_______/"]
+teoc = [" ______  ",
+	"/      \\ ",
+	"|X      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      X|",
+       "\\_______/"]
+teoh = [" ______  ",
+	"/      \\ ",
+	"|X      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      X|",
+       "\\_______/"]
+teod = [" ______  ",
+	"/      \\ ",
+	"|X      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      X|",
+       "\\_______/"]
+jaos = [" ______  ",
+	"/      \\ ",
+	"|J      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      J|",
+       "\\_______/"]
+jaoc = [" ______  ",
+	"/      \\ ",
+	"|J      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      J|",
+       "\\_______/"]
+jaoh = [" ______  ",
+	"/      \\ ",
+	"|J      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      J|",
+       "\\_______/"]
+jaod = [" ______  ",
+	"/      \\ ",
+	"|J      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      J|",
+       "\\_______/"]
+quos = [" ______  ",
+	"/      \\ ",
+	"|Q      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      Q|",
+       "\\_______/"]
+quoc = [" ______  ",
+	"/      \\ ",
+	"|Q      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      Q|",
+       "\\_______/"]
+quoh = [" ______  ",
+	"/      \\ ",
+	"|Q      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      Q|",
+       "\\_______/"]
+quod = [" ______  ",
+	"/      \\ ",
+	"|Q      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      Q|",
+       "\\_______/"]
+kios = [" ______  ",
+	"/      \\ ",
+	"|K      \\",
+	"| Spades|",
+	"|       |",
+	"|Spades |",
+	"|      K|",
+       "\\_______/"]
+kioc = [" ______  ",
+	"/      \\ ",
+	"|K      \\",
+	"|  Clubs|",
+	"|       |",
+	"|Clubs  |",
+	"|      K|",
+       "\\_______/"]
+kioh = [" ______  ",
+	"/      \\ ",
+	"|K      \\",
+	"| Hearts|",
+	"|       |",
+	"|Hearts |",
+	"|      K|",
+       "\\_______/"]
+kiod = [" ______  ",
+	"/      \\ ",
+	"|K      \\",
+	"|  Dimes|",
+	"|       |",
+	"|Dimes  |",
+	"|      K|",
+       "\\_______/"]
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define the classes that will represent Standard Cards (the BaseCard class) and Ace Cards (the AceCard class)
+		#Both the AceCard class is derived from the BaseCard class and as a result contain the same five non static (instance) values):
+			#self.value; An integer value representing the total added to your hand under normal circumstances:
+				#Used for comparing whether a hand of two cards can be split or not.
+			#self.suite; A string value representing the suite of a card, "Spades", "Clubs", "Hearts", or "Diamonds".
+			#self.card; A string value representing the number or face of a card, "Two", "Eight", "Ace", "King" etc.
+			#self.name; A string value representing the name of a card:
+				#It is equal to "X of Y" where X is self.card and Y is self.suite.
+			#self.face; An array of string values which is used to visually represent a card when printed.
+		#Both the BaseCard class and AceCard class contain one function:
+			#GetValue(); A function which returns the value a card will add to a hand:
+				#Takes in the current value of your hand as input value score.
+				#Returns self.value.
+		#The AceCard class differs from the BaseCard class in three ways:
+			#self.value is not supplied upon instantiation and is always equal to 11.
+			#self.card is not supplied upon instantiation and is always equal to "Ace".
+			#GetValue() will return 1 if score is greater than 10, and 11 if score is less than or equal to 10.
+
+class BaseCard:
+	def __init__(self, v, s, c, f):
+		self.value = v
+		self.suite = s
+		self.card = c
+		self.name = (c + " of " + s)
+		self.face = f
+	def GetValue(self, score):
+		return(self.value)
+
+class AceCard(BaseCard): 
+	def __init__(self, s, f):
+		self.value = 11
+		self.suite = s
+		self.card = "Ace"
+		self.name = (self.card + " of" + s)
+		self.face = f
+	def GetValue(self, score):
+		if( score > 10 ):
+			return 1
+		else:
+			return 11
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define an array of BaseCard and AceCard classes which will represent one full standard deck.
+
+fd = [
+	AceCard(
+		"Spades", aos),
+	AceCard(
+		"Clubs", aoc),
+	AceCard(
+		"Hearts", aoh),
+	AceCard(
+		"Diamonds", aod),
+	BaseCard(
+		2, "Spades", "Two", twos),
+	BaseCard(
+		2, "Clubs", "Two", twoc),
+	BaseCard(
+		2, "Hearts", "Two", twoh),
+	BaseCard(
+		2, "Diamonds", "Two", twod),
+	BaseCard(
+		3, "Spades", "Three", thos),
+	BaseCard(
+		3, "Clubs", "Three", thoc),
+	BaseCard(
+		3, "Hearts", "Three", thoh),
+	BaseCard(
+		3, "Diamonds", "Three", thod),
+	BaseCard(
+		4, "Spades", "Four", foos),
+	BaseCard(
+		4, "Clubs", "Four", fooc),
+	BaseCard(
+		4, "Hearts", "Four", fooh),
+	BaseCard(
+		4, "Diamonds", "Four", food),
+	BaseCard(
+		5, "Spades", "Five", fios),
+	BaseCard(
+		5, "Clubs", "Five", fioc),
+	BaseCard(
+		5, "Hearts", "Five", fioh),
+	BaseCard(
+		5, "Diamonds", "Five", fiod),
+	BaseCard(
+		6, "Spades", "Six", sios),
+	BaseCard(
+		6, "Clubs", "Six", sioc),
+	BaseCard(
+		6, "Hearts", "Six", sioh),
+	BaseCard(
+		6, "Diamonds", "Six", siod),
+	BaseCard(
+		7, "Spades", "Seven", seos),
+	BaseCard(
+		7, "Clubs", "Seven", seoc),
+	BaseCard(
+		7, "Hearts", "Seven", seoh),
+	BaseCard(
+		7, "Diamonds", "Seven", seod),
+	BaseCard(
+		8, "Spades", "Eight", eios),
+	BaseCard(
+		8, "Clubs", "Eight", eioc),
+	BaseCard(
+		8, "Hearts", "Eight", eioh),
+	BaseCard(
+		8, "Diamonds", "Eight", eiod),
+	BaseCard(
+		9, "Spades", "Nine", nios),
+	BaseCard(
+		9, "Clubs", "Nine", nioc),
+	BaseCard(
+		9, "Hearts", "Nine", nioh),
+	BaseCard(
+		9, "Diamonds", "Nine", niod),
+	BaseCard(
+		10, "Spades", "Ten", teos),
+	BaseCard(
+		10, "Clubs", "Ten", teoc),
+	BaseCard(
+		10, "Hearts", "Ten", teoh),
+	BaseCard(
+		10, "Diamonds", "Ten", teod),
+	BaseCard(
+		10, "Spades", "Jack", jaos),
+	BaseCard(
+		10, "Clubs", "Jack", jaoc),
+	BaseCard(
+		10, "Hearts", "Jack", jaoh),
+	BaseCard(
+		10, "Diamonds", "Jack", jaod),
+	BaseCard(
+		10, "Spades", "Queen", quos),
+	BaseCard(
+		10, "Clubs", "Queen", quoc),
+	BaseCard(
+		10, "Hearts", "Queen", quoh),
+	BaseCard(
+		10, "Diamonds", "Queen", quod),
+	BaseCard(
+		10, "Spades", "King", kios),
+	BaseCard(
+		10, "Clubs", "King", kioc),
+	BaseCard(
+		10, "Hearts", "King", kioh),
+	BaseCard(
+		10, "Diamonds", "King", kiod)]
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define the class which will represent a deck of cards (the Deck class) which contains two static (class) values:
+		#inPile; An Array of AceCard and BaseCard classes which represents the pile in which cards are shuffled and waiting to be dealt to players.
+		#outPile; An array of AceCard and BaseCard classes which represents the pile in which cards that have been discarded and are waiting to be reshuffled into inPile.
+	#The Deck Class contains no non static (instance) values. 
+	#The Deck Class contains one function:
+		#shuffle(); A function which takes all cards in outPile and moves them into inPile.
+
+class Deck:
+	inPile  = []
+	outPile = []
+	def __init__(self, decks):
+		i = 0
+		while i < decks:
+			self.inPile.extend(fd)
+			i += 1
+	def shuffle(self):
+		print("\nShufflin' the deck!")
+		while len(self.outPile) > 0:
+			self.inPile.append(self.outPile.pop(0))
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define the the class which will represent a hand of cards held by a player (the Hand class) which contains three non static (instance) values:
+		#self.score; The integer value which represents the point value of the hand, this is what you're trying to get to 21.
+		#self.cards; An Array of BaseCards and AceCards that the hand contains.
+		#self.doubled; A boolean value that checks whether a hand has been double downed, and can resultingly no longer hit.
+	#The Hand class also contains six functions:
+		#print(); A function which prints the visual representations of the cards that the Hand class contains,
+			#the data printed is contained in BaseCard.face, and AceCard.face.
+		#printHalf(); A function which prints the visual representation of the first card in the hand and then boc.
+		#evalAceLast(); A function which evaluates and populates self.score, 
+			#it does this by running the GetValue() function on all BaseCard classes within self.cards followed by doing the same for all AceCard classes within self.cards.
+			#The order of operations is important to make sure that the AceCard classes return the correct value.
+			#Returns self.score.
+		#hit(); A function which takes a random card from the inPile value of a Deck class object and adds it to self.cards.
+			#Takes in a Deck class object from which to take a card.
+		#deal(); A function which calls the hit() function twice.
+			#Takes in a Deck class object which is needed for passing to the hit() function.
+		#clear(); A function which takes all cards in self.cards and moves them to the outPile value of a Deck class object.
+			#Takes in a Deck class object to which it gives cards.
+
+class Hand:
+	def __init__(self):
+		self.score = 0
+		self.cards = []
+		self.doubled = False
+	def print(self):
+		i = 0
+		while (i < 8):
+			line = ""
+			for card in self.cards:
+				line += (card.face[i] + " ")
+			print (line)
+			i += 1
+	def printHalf(self):
+		i = 0
+		while (i < 8):
+			line = ""
+			line += (self.cards[0].face[i] + " ")
+			line += (boc[i] + " ")
+			print (line)
+			i += 1
+	def evalAceLast(self):
+		r = 0
+		for card in self.cards:
+			if card.card != "Ace":
+				r += card.GetValue(r)
+		for card in self.cards:
+			if card.card == "Ace":
+				r += card.GetValue(r)
+		self.score = r
+		return(self.score)
+	def hit(self, deck):
+		size = len(deck.inPile)
+		if (size == 0):
+			deck.shuffle()
+		size = len(deck.inPile)
+		index = randint(0, size - 1)
+		self.cards.append(deck.inPile.pop(index))
+	def deal(self, deck):
+		self.hit(deck)
+		self.hit(deck)
+	def clear(self, deck):
+		size = len(self.cards)
+		i = 0
+		while (i < size):
+			deck.outPile.append(self.cards.pop(0))
+			i += 1
+		self.doubled = False
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define a class which represents the result of a finished hand (the HandResult class), which is used to determine whether the player won or lost a hand. 
+		#The HandResult class contains three non static (instance) values:
+			#self.CardCount; An integer value which represents the number of cards which were in the Hand class object that this HandResult class instance represents when it finished.
+			#self.Value; An integer value which represents the point value of the Hand class object that this HandResult class instance represents when it finished.
+			#self.DoubleDown; A boolean value which indicates whether or not the Hand class object that this HandResult class instance represents finished by doubling down.
+
+class HandResult:
+	def __init__(self, vl, cc, dd = False):
+		self.CardCount = cc
+		self.Value = vl
+		self.DoubleDown = dd
+	def __str__(self):
+		return ("CC = " + str(self.CardCount) + ", VL = " + str(self.Value) + ", DD = " + str(self.DoubleDown))
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define a class which represents a player who will play blackjack, it contains two three static (instance) values:
+		#self.Hand; An array of Hand class objects, one for each that the player is playing at once.
+		#self.tb; An integer value which represents the total amount of money currently being bet accross all hands currently being played.
+		#self.bi; An integer value which represents the original amount of money bet at the begining of the current round.
+	#The Player class contains three functions:
+		#Play(); A function which:
+			#Shows the player their hand by calling the print() function on the hand currently being interacted with.
+			#Determines whether or not the player can double down or split their hand.
+			#Checks if the player has reached or exceeded a score of 21 on their hand, reveals the score to the player, 
+				#and finishes the hand if the player has reached or exceeded a score of 21 by intantiating and returning a HandResult class object based on the hand currently being interacted with.
+			#Informs the player of the things they can do with their hand, Hit, Stand, Split or Double Down as appropriate using the Call() function.
+			#Requests that the player decide what they would like to do with their hand next.
+				#If the player chooses to hit, call the hit() function for the hand currently being interacted with and recursively calls Play().
+				#If the player chooses to stand, instantiate and return a HandResult class object based on the hand currently being interacted with.
+				#If the player chooses to split, add self.bi to self.tb, call and return the Split() function.
+				#If the player chooses to double down, set Hand.doubled to true for the hand currently being iteracted with, add self.bi to self.tb, call the hit() functionm abd call Play() recursively.
+			#Takes in a(n):
+				#Deck class object which represents the deck from which the player will draw cards, called deck.
+				#Integer value which is used to index self.Hand to find the hand that is currently being interacted with, called i, assumed 0.
+				#Boolean value which indicates whether or not the player is betting, called b, assumed false.
+				#Integer value which represents the total remaining cash that a player can bet with, called cr, assumed 0.
+				#Integer value which represents the amount being bet on all hands initially, called tb, assumed -1.
+			#Returns an array of HandResult class object based on all hands being played by the player this round.
+		#Call(); A function which presents the player with all of the things they can do with their hand and processes their response. 
+			#Takes in a:
+				#boolean value which indicates whether the player can double down on the hand currently being interacted with, called d.
+				#boolean value which indicates whether the player can split the hand currently being interacted with, called s.
+			#Returns an integer value which represents the selection that the player made.
+		#Split(); A function which:
+			#Creates a new Hand class object and adds it to self.Hands.
+			#Moves a card from the hand currently being interacted with to the newly created hand.
+			#Calls the hit() function on both the hand currently being interacted with and the newly created hand.
+			#Calls and returns Play() on both the hand currently being interacted with and the newly created hand.
+			#Takes in a(n):
+				#Deck class object which represents the deck from which the player will draw cards, called deck.
+				#Integer value which is used to index self.Hand to find the hand that is currently being interacted with, called s, assumed 0.
+				#Boolean value which indicates whether or not the player is betting, called b, assumed false.
+				#Integer value which represents the total remaining cash that a player can bet with, called cr, assumed 0.
+			#Returns an array of HandResult class object based on all hands being played by the player this round.
+
+class Player:
+	def __init__(self):
+		self.Hand = [ Hand() ]
+		self.tb = 0
+		self.bi = 0
+	def Play(self, deck, i = 0, b = False, cr = 0, tb = -1):
+		if (tb != -1):
+			self.tb = tb
+			self.bi = tb
+		print(f"{colours.OKCYAN}\nYour Hand:{colours.ENDC}")
+		self.Hand[i].print()
+		splitable = False
+		doublable = False
+		if (len(self.Hand[i].cards) == 2 and cr >= self.tb + self.bi):
+			if b:
+				doublable = True
+			if (self.Hand[i].cards[0].GetValue(0) == self.Hand[i].cards[1].GetValue(0)):
+				splitable = True
+		done = False
+		val = -1
+		if (self.Hand[i].evalAceLast() > 21):
+			print(f"{colours.OKGREEN}\nTotal Score = Bust...{colours.ENDC}")
+			if self.Hand[i].doubled:
+				return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards), True) ]
+			return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards)) ]
+		elif (self.Hand[i].score == 21):
+			print(f"{colours.OKGREEN}\nTotal Score = 21!{colours.ENDC}")
+			if self.Hand[i].doubled:
+				return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards), True) ]
+			return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards)) ]
+		else:
+			print(f"{colours.OKGREEN}\nTotal Score = " + str(self.Hand[i].score) + f"{colours.ENDC}")
+		if not self.Hand[i].doubled:
+			while (not done):
+				val = self.Call(doublable, splitable)
+				if (val != -1):
+					done = True
+				else:
+					print (f"{colours.WARNING}\nInvalid input. Please input the letter in brackets for the option you want.{colours.ENDC}")
+			if (val == 0):
+				self.Hand[i].hit(deck)
+				return self.Play(deck, i, b, cr)
+			elif (val == 1):
+				return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards)) ]
+			elif (val == 3):
+				self.tb = self.tb + self.bi
+				return self.Split(deck, i, b, cr)
+			else:
+				self.Hand[i].doubled = True
+				self.tb = self.tb + self.bi
+				self.Hand[i].hit(deck)
+				return self.Play(deck, i, b, cr)
+		else:
+			return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards), True) ]
+	def Call(self, d, s):
+		response = ""
+		if (d and s):
+			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it, {colours.ENDC}(S){colours.OKBLUE}tand, {colours.ENDC}(D){colours.OKBLUE}ouble Down or S{colours.ENDC}(P){colours.OKBLUE}lit? - {colours.ENDC}")
+		elif (d and not s):
+			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it, {colours.ENDC}(S){colours.OKBLUE}tand or {colours.ENDC}(D){colours.OKBLUE}ouble Down? - {colours.ENDC}")
+		elif (not d and s):
+			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it, {colours.ENDC}(S){colours.OKBLUE}tand or S{colours.ENDC}(P){colours.OKBLUE}lit? - {colours.ENDC}")
+		else:
+			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it or {colours.ENDC}(S){colours.OKBLUE}tand? - {colours.ENDC}")
+		val = -1
+		for char in response:
+			if (char == "H" or char == "h"):
+				val = 0
+				break
+			elif (char == "S" or char == "s"):
+				val = 1
+				break
+			elif ((char == "D" or char == "d") and d):
+				val = 2
+				break
+			elif ((char == "P" or char == "p") and s):
+				val = 3
+				break
+		return val
+	def Split(self, deck, s, b = False, cr = 0):
+		self.Hand.append(Hand())
+		n = len(self.Hand) - 1
+		self.Hand[-1].cards.append(self.Hand[s].cards.pop(-1))
+		self.Hand[-1].hit(deck)
+		self.Hand[s].hit(deck)
+		r = self.Play(deck, s, b, cr)
+		input(f"{colours.OKBLUE}\nHit enter for your next hand.{colours.ENDC}")
+		r.extend(self.Play(deck, n, b, cr))
+		return r
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define a class which represents the dealer who the player will be trying to beat. The Dealer class is derived from the Player class.
+		#The Dealer class contains one non static (instance) value, self.Hand; a Hand class object.
+		#The Dealer class contains one function:
+			#Play(); A function which:
+				#Checks if the dealer has reached or exceeded a score of 21 on their hand, reveals the score to the player, 
+					#and finishes the hand if the dealer has reached or exceeded a score of 21 by intantiating and returning a HandResult class object self.Hand.
+				#Checks if the dealer has reacher or exceeded a score of 17 on their hand, 
+					#calls the hit() function of self.Hand() if the dealer has not reached or exceeded a score of 17 on their hand and calls Play() recursively,
+					#and finishes the hand if the dealer has reached or exceeded a score of 17 by intantiating and returning a HandResult class object self.Hand.
+				#Takes in a Deck class object which represents the deck from which the player will draw cards, called deck.
+				#Returns a HandResult class object based on self.Hand(). 
+
+class Dealer(Player):
+	def __init__(self):
+		self.Hand = Hand()
+	def Play(self, deck):
+		print(f"{colours.OKCYAN}\nDealer's Hand:{colours.ENDC}")
+		self.Hand.print()
+		if (self.Hand.evalAceLast() > 21):
+			print(f"{colours.OKGREEN}\nTotal Score = Bust...{colours.ENDC}")
+			return HandResult(self.Hand.score, len(self.Hand.cards))
+		elif (self.Hand.score == 21):
+			print(f"{colours.OKGREEN}\nTotal Score = 21!{colours.ENDC}")
+			return HandResult(self.Hand.score, len(self.Hand.cards))
+		else:
+			print(f"{colours.OKGREEN}\nTotal Score = " + str(self.Hand.score) + f"{colours.ENDC}")
+		if (self.Hand.score <= 16):
+			print(f"{colours.OKBLUE}\nDealer Hits!{colours.ENDC}")
+			self.Hand.hit(deck)
+			return self.Play(deck)
+		else:
+			print(f"{colours.OKBLUE}\nDealer Stands!{colours.ENDC}")
+			return HandResult(self.Hand.score, len(self.Hand.cards))
+		
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Im'a do this one tommorrow. I am very tired. Sue me.
+
+class BlackPack:
+	def __init__(self):
+		self.Deck = Deck(0)
+		self.Player = Player()
+		self.Dealer = Dealer()
+		self.AutoShuffle = False
+		self.Betting = False
+		self.PlayerCash = 0
+		self.InitialPlayerCash = 0
+		self.MaxBet = 0
+		self.MinBet = 0
+	def PlayGame(self):
+		cont = False
+		while not cont:
+			decks = input("\nHow many decks would you like to play with? ")
+			try:
+				decksInt = int(decks)
+				if (decksInt < 1):
+					print("\nPlease input a number greater than zero.\n")
+				elif (decksInt > 10):
+					print("\nPlease input a number less than eleven.\n")
+				else:
+					cont = True
+			except:
+				print("\nPlease input a whole number.")
+		done = False
+		while not done:
+			response = input("\nPlay with auto shuffle? (Y)es or (N)o? - ")
+			for char in response:
+				if (char == "Y" or char == "y"):
+					shuffle = 1
+					done = True
+					break
+				elif (char == "N" or char == "n"):
+					shuffle = 2
+					done = True
+					break
+			if (shuffle == 0):
+				print("\nInvalid input. Please input the letter in brackets for the option you want.")
+			elif (shuffle == 1):
+				print("\nAwesome! No card counting here.")
+				self.AutoShuffle = True
+			else:
+				print("\nAwesome! Count those cards!")
+				self.AutoShuffle = False
+		done = False
+		bet = 0
+		while not done:
+			response = input("\nPlay with betting? (Y)es or (N)o? - ")
+			for char in response:
+				if (char == "Y" or char == "y"):
+					bet = 1
+					done = True
+					break
+				elif (char == "N" or char == "n"):
+					bet = 2
+					done = True
+					break
+			if (bet == 0):
+				print("\nInvalid input. Please input the letter in brackets for the option you want.")
+			elif (bet == 1):
+				print("\nAwesome! Let's do this right!")
+				self.Betting = True
+			else:
+				print("\nAwesome! Let's play for fun.")
+				self.Betting = False
+		if self.Betting:
+			cont = False
+			while not cont:
+				cash = input("\nHow much cash would you like to have for betting? ")
+				try:
+					cashInt = int(cash)
+					if (cashInt < 1):
+						print("\nPlease input a number greater than zero.")
+					elif (cashInt > 1000000):
+						print("\nPlease input a number less than one million.")
+					else:
+						cont = True
+				except:
+					print("\nPlease input a whole number.")
+			self.PlayerCash = cashInt
+			self.InitialPlayerCash = self.PlayerCash
+			cont = False
+			while not cont:
+				max = input("\nHow much cash would you like to have for your betting maximum? ")
+				try:
+					maxInt = int(max)
+					if (maxInt < 1):
+						print("\nPlease input a number greater than zero.")
+					elif (maxInt > (self.PlayerCash / 10)):
+						print("\nPlease input a number less than or equal to one tenth your cash total.")
+					elif (maxInt < (self.PlayerCash / 100)):
+						print("\nPlease input a number more than or equal to one hundredth your cash total.")
+					else:
+						cont = True
+				except:
+					print("\nPlease input a whole number.")
+			self.MaxBet = maxInt
+			cont = False
+			while not cont:
+				min = input("\nHow much cash would you like to have for your betting minimum? ")
+				try:
+					minInt = int(min)
+					if (minInt < 1):
+						print("\nPlease input a number greater than zero.")
+					elif (minInt > self.MaxBet):
+						print("\nPlease input a number less than or equal to your betting maximum.")
+					elif (maxInt < (self.PlayerCash / 1000)):
+						print("\nPlease input a number more than or equal to one thousandth your cash total.")
+					else:
+						cont = True
+				except:
+					print("\nPlease input a whole number.")
+			self.MinBet = minInt
+		self.Deck = Deck(decksInt)
+		print(f"{colours.OKGREEN}\nGreat! Let's shuffle up and play!{colours.ENDC}")
+		self.PlayRound()
+	def PlayRound(self):
+		if self.AutoShuffle:
+			self.Deck.shuffle()
+		else:
+			print(f"{colours.OKCYAN}\nDeck Remaining Size: {colours.ENDC}" + str(len(self.Deck.inPile)))
+		betInt = 0
+		if self.Betting:
+			print(f"{colours.OKCYAN}\nBetting Cash Remaining: {colours.ENDC}" + str(self.PlayerCash))
+			if (self.PlayerCash <= 0):
+				print(f"{colours.WARNING}\nYou've gone broke. That's game over.\n{colours.ENDC}")
+				return 0
+			cont = False
+			while not cont:
+				bet = input(f"{colours.OKBLUE}\nHow much cash would you like to bet? {colours.ENDC}")
+				try:
+					betInt = int(bet)
+					if (betInt < self.MinBet):
+						print(f"{colours.WARNING}\nPlease input a number greater than {colours.ENDC}" + str(self.MinBet) + f"{colours.WARNING}.{colours.ENDC}")
+					elif (betInt > self.MaxBet):
+						print(f"{colours.WARNING}\nPlease input a number less than {colours.ENDC}" + str(self.MaxBet) + f"{colours.WARNING}.{colours.ENDC}")
+					elif (betInt > self.PlayerCash):
+						print(f"{colours.WARNING}\nPlease input a number less than or equal to your cash amount.{colours.ENDC}")
+					else:
+						cont = True
+				except:
+					print(f"{colours.WARNING}\nPlease input a whole number.{colours.ENDC}")
+		self.Player.Hand[0].deal(self.Deck)
+		self.Dealer.Hand.deal(self.Deck)
+		print(f"{colours.OKCYAN}\nYour Hand:{colours.ENDC}")
+		self.Player.Hand[0].print()
+		print(f"{colours.OKCYAN}\nDealer's Hand:{colours.ENDC}")
+		self.Dealer.Hand.printHalf()
+		input(f"{colours.OKBLUE}\nHit enter for your turn.{colours.ENDC}")
+		playerScores = self.Player.Play(self.Deck, 0, self.Betting, self.PlayerCash, betInt)
+		input(f"{colours.OKBLUE}\nHit enter for the dealer's turn.{colours.ENDC}")
+		dealerScore = self.Dealer.Play(self.Deck)
+		for hand in self.Player.Hand:
+			hand.clear(self.Deck)
+		i = 1
+		while i < len(self.Player.Hand):
+			self.Player.Hand.pop(1)
+			i += 1
+		self.Dealer.Hand.clear(self.Deck)
+		i = 0
+		for playerScore in playerScores:
+			if (dealerScore.Value == 21 and dealerScore.CardCount == 2):
+				print(f"{colours.OKCYAN}\nThe dealer got blackjack...{colours.ENDC}")
+				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				if self.Betting:
+					if not playerScore.DoubleDown:
+						self.PlayerCash -= betInt
+						print(f"{colours.OKCYAN}You lost your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+					else:
+						self.PlayerCash -= betInt * 2
+						print(f"{colours.OKCYAN}You lost double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}...{colours.ENDC}")
+					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash))
+			elif (playerScore.Value == 21 and playerScore.CardCount == 2):
+				print(f"{colours.OKCYAN}\nYou got blackjack!{colours.ENDC}")
+				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				if self.Betting:
+					self.PlayerCash += (betInt * 2)
+					print(f"{colours.OKCYAN}You won double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}!{colours.ENDC}")
+					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
+			elif ((playerScore.Value < 22 and dealerScore.Value > 21) or (playerScore.Value < 22 and playerScore.Value > dealerScore.Value)):
+				print(f"{colours.OKCYAN}\nYou beat the dealer!{colours.ENDC}")
+				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value) + f"{colours.ENDC}")
+				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value) + f"{colours.ENDC}")
+				if self.Betting:
+					if not playerScore.DoubleDown:
+						self.PlayerCash += betInt
+						print(f"{colours.OKCYAN}You won your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+					else:
+						self.PlayerCash += betInt * 2
+						print(f"{colours.OKCYAN}You won double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
+			elif (playerScore.Value < 22 and playerScore.Value == dealerScore.Value):			
+				print(f"{colours.OKCYAN}\nYou pushed with the dealer.{colours.ENDC}")
+				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				if self.Betting:
+					print(f"{colours.OKCYAN}Your money was returned.{colours.ENDC}")
+					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
+			else:
+				print(f"{colours.OKCYAN}\nThe dealer beat you...{colours.ENDC}")
+				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				if self.Betting:
+					if not playerScore.DoubleDown:
+						self.PlayerCash -= betInt
+						print(f"{colours.OKCYAN}You lost your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+					else:
+						self.PlayerCash -= betInt * 2
+						print(f"{colours.OKCYAN}You lost double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}...{colours.ENDC}")
+					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash))
+			i += 1
+		if self.Betting:
+			if (self.PlayerCash <= 0):
+				print(f"{colours.WARNING}\nYou've gone broke. That's game over.\n{colours.ENDC}")
+				return 0
+		done = False
+		again = 0
+		while not done:
+			response = input(f"{colours.OKBLUE}\nPlay again? {colours.ENDC}(Y){colours.OKBLUE}es or {colours.ENDC}(N){colours.OKBLUE}o? - {colours.ENDC}")
+			for char in response:
+				if (char == "Y" or char == "y"):
+					again = 1
+					done = True
+					break
+				elif (char == "N" or char == "n"):
+					again = 2
+					done = True
+					break
+			if (again == 0):
+				print(f"{colours.WARNING}\nInvalid input. Please input the letter in brackets for the option you want.{colours.ENDC}")
+			elif (again == 1):
+				print(f"{colours.OKGREEN}\nAwesome! Let's deal them out again!{colours.ENDC}")
+				self.PlayRound()
+				done = True
+			else:
+				print(f"{colours.OKGREEN}\nThank you for playing!\n{colours.ENDC}")
+				if self.Betting:
+					if self.PlayerCash > self.InitialPlayerCash:
+						print(f"{colours.OKBLUE}You won {colours.ENDC}" + str(self.PlayerCash - self.InitialPlayerCash) + f"{colours.OKBLUE} today!\n{colours.ENDC}")
+					elif self.PlayerCash < self.InitialPlayerCash:
+						print(f"{colours.OKBLUE}You lost {colours.ENDC}" + str(self.InitialPlayerCash - self.PlayerCash) + f"{colours.OKBLUE} today.\n{colours.ENDC}")
+					else:
+						print(f"{colours.OKBLUE}You broke even today.\n{colours.ENDC}")
+				done = True
+				return 0
+
+game = BlackPack()
+game.PlayGame()
