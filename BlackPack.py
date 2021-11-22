@@ -16,11 +16,50 @@ from random import randint
 	#Here I define several characters that will be appended to strings to chang their colours when printed.
 
 class colours:
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    ENDC = '\033[0m'
+	ENDC = '\033[0m'
+
+	BOLD = '\033[1m'
+	UNDER = '\033[4m'
+	NO_UNDER = '\033[24m'
+	REVERSE = '\033[7m'
+	FOREWARD = '\033[27m'
+
+	FORE_DARK_BLACK = '\033[30m'
+	FORE_DARK_RED = '\033[31m'
+	FORE_DARK_GREEN = '\033[32m'
+	FORE_DARK_ORANGE = '\033[33m'
+	FORE_DARK_BLUE = '\033[34m'
+	FORE_DARK_MAGENTA = '\033[35m'
+	FORE_DARK_CYAN = '\033[36m'
+	FORE_DARK_WHITE = '\033[37m'
+
+	FORE_BRIGHT_BLACK = '\033[90m'
+	FORE_BRIGHT_RED = '\033[91m'
+	FORE_BRIGHT_GREEN = '\033[92m'
+	FORE_BRIGHT_ORANGE = '\033[93m'
+	FORE_BRIGHT_BLUE = '\033[94m'
+	FORE_BRIGHT_MAGENTA = '\033[95m'
+	FORE_BRIGHT_CYAN = '\033[96m'
+	FORE_BRIGHT_WHITE = '\033[97m'
+
+	BACK_ENDC = '\033[0m'
+	BACK_DARK_BLACK = '\033[40m'
+	BACK_DARK_RED = '\033[41m'
+	BACK_DARK_GREEN = '\033[42m'
+	BACK_DARK_ORANGE = '\033[43m'
+	BACK_DARK_BLUE = '\033[44m'
+	BACK_DARK_MAGENTA = '\033[45m'
+	BACK_DARK_CYAN = '\033[46m'
+	BACK_DARK_WHITE = '\033[47m'
+
+	BACK_BRIGHT_BLACK = '\033[1000m'
+	BACK_BRIGHT_RED = '\033[101m'
+	BACK_BRIGHT_GREEN = '\033[102m'
+	BACK_BRIGHT_ORANGE = '\033[103m'
+	BACK_BRIGHT_BLUE = '\033[104m'
+	BACK_BRIGHT_MAGENTA = '\033[105m'
+	BACK_BRIGHT_CYAN = '\033[106m'
+	BACK_BRIGHT_WHITE = '\033[107m'
 
 #[Noah Panepinto (Oct.3 2021 {01:39})]
 	#Here I define several string arrays, which will contain the visual data used to represent each card within a standard deck of cards and the back of a standard card when printed.
@@ -486,13 +525,22 @@ class BaseCard:
 		self.face = f
 	def GetValue(self, score):
 		return(self.value)
+	def __str__(self):
+		r = ""
+		i = 0
+		for line in self.face:
+			if not i == 0:
+				r += '\n'
+			r += line
+			i += 1
+		return r
 
 class AceCard(BaseCard): 
 	def __init__(self, s, f):
 		self.value = 11
 		self.suite = s
 		self.card = "Ace"
-		self.name = (self.card + " of" + s)
+		self.name = (self.card + " of " + s)
 		self.face = f
 	def GetValue(self, score):
 		if( score > 10 ):
@@ -715,7 +763,7 @@ class HandResult:
 		return ("CC = " + str(self.CardCount) + ", VL = " + str(self.Value) + ", DD = " + str(self.DoubleDown))
 
 #[Noah Panepinto (Oct.3 2021 {01:39})]
-	#Here I define a class which represents a player who will play blackjack, it contains two three static (instance) values:
+	#Here I define a class which represents a player who will play blackjack, it contains three static (instance) values:
 		#self.Hand; An array of Hand class objects, one for each that the player is playing at once.
 		#self.tb; An integer value which represents the total amount of money currently being bet accross all hands currently being played.
 		#self.bi; An integer value which represents the original amount of money bet at the begining of the current round.
@@ -764,7 +812,7 @@ class Player:
 		if (tb != -1):
 			self.tb = tb
 			self.bi = tb
-		print(f"{colours.OKCYAN}\nYour Hand:{colours.ENDC}")
+		print(f"{colours.FORE_BRIGHT_CYAN}\nYour Hand:{colours.ENDC}")
 		self.Hand[i].print()
 		splitable = False
 		doublable = False
@@ -776,24 +824,24 @@ class Player:
 		done = False
 		val = -1
 		if (self.Hand[i].evalAceLast() > 21):
-			print(f"{colours.OKGREEN}\nTotal Score = Bust...{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_GREEN}\nTotal Score = Bust...{colours.ENDC}")
 			if self.Hand[i].doubled:
 				return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards), True) ]
 			return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards)) ]
 		elif (self.Hand[i].score == 21):
-			print(f"{colours.OKGREEN}\nTotal Score = 21!{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_GREEN}\nTotal Score = 21!{colours.ENDC}")
 			if self.Hand[i].doubled:
 				return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards), True) ]
 			return [ HandResult(self.Hand[i].score, len(self.Hand[i].cards)) ]
 		else:
-			print(f"{colours.OKGREEN}\nTotal Score = " + str(self.Hand[i].score) + f"{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_GREEN}\nTotal Score = " + str(self.Hand[i].score) + f"{colours.ENDC}")
 		if not self.Hand[i].doubled:
 			while (not done):
 				val = self.Call(doublable, splitable)
 				if (val != -1):
 					done = True
 				else:
-					print (f"{colours.WARNING}\nInvalid input. Please input the letter in brackets for the option you want.{colours.ENDC}")
+					print (f"{colours.FORE_BRIGHT_ORANGE}\nInvalid input. Please input the letter in brackets for the option you want.{colours.ENDC}")
 			if (val == 0):
 				self.Hand[i].hit(deck)
 				return self.Play(deck, i, b, cr)
@@ -812,13 +860,13 @@ class Player:
 	def Call(self, d, s):
 		response = ""
 		if (d and s):
-			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it, {colours.ENDC}(S){colours.OKBLUE}tand, {colours.ENDC}(D){colours.OKBLUE}ouble Down or S{colours.ENDC}(P){colours.OKBLUE}lit? - {colours.ENDC}")
+			response = input(f"{colours.FORE_BRIGHT_BLUE}\nWould you like to {colours.ENDC}(H){colours.FORE_BRIGHT_BLUE}it, {colours.ENDC}(S){colours.FORE_BRIGHT_BLUE}tand, {colours.ENDC}(D){colours.FORE_BRIGHT_BLUE}ouble Down or S{colours.ENDC}(P){colours.FORE_BRIGHT_BLUE}lit? - {colours.ENDC}")
 		elif (d and not s):
-			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it, {colours.ENDC}(S){colours.OKBLUE}tand or {colours.ENDC}(D){colours.OKBLUE}ouble Down? - {colours.ENDC}")
+			response = input(f"{colours.FORE_BRIGHT_BLUE}\nWould you like to {colours.ENDC}(H){colours.FORE_BRIGHT_BLUE}it, {colours.ENDC}(S){colours.FORE_BRIGHT_BLUE}tand or {colours.ENDC}(D){colours.FORE_BRIGHT_BLUE}ouble Down? - {colours.ENDC}")
 		elif (not d and s):
-			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it, {colours.ENDC}(S){colours.OKBLUE}tand or S{colours.ENDC}(P){colours.OKBLUE}lit? - {colours.ENDC}")
+			response = input(f"{colours.FORE_BRIGHT_BLUE}\nWould you like to {colours.ENDC}(H){colours.FORE_BRIGHT_BLUE}it, {colours.ENDC}(S){colours.FORE_BRIGHT_BLUE}tand or S{colours.ENDC}(P){colours.FORE_BRIGHT_BLUE}lit? - {colours.ENDC}")
 		else:
-			response = input(f"{colours.OKBLUE}\nWould you like to {colours.ENDC}(H){colours.OKBLUE}it or {colours.ENDC}(S){colours.OKBLUE}tand? - {colours.ENDC}")
+			response = input(f"{colours.FORE_BRIGHT_BLUE}\nWould you like to {colours.ENDC}(H){colours.FORE_BRIGHT_BLUE}it or {colours.ENDC}(S){colours.FORE_BRIGHT_BLUE}tand? - {colours.ENDC}")
 		val = -1
 		for char in response:
 			if (char == "H" or char == "h"):
@@ -841,7 +889,7 @@ class Player:
 		self.Hand[-1].hit(deck)
 		self.Hand[s].hit(deck)
 		r = self.Play(deck, s, b, cr)
-		input(f"{colours.OKBLUE}\nHit enter for your next hand.{colours.ENDC}")
+		input(f"{colours.FORE_BRIGHT_BLUE}\nHit enter for your next hand.{colours.ENDC}")
 		r.extend(self.Play(deck, n, b, cr))
 		return r
 
@@ -862,26 +910,26 @@ class Dealer(Player):
 	def __init__(self):
 		self.Hand = Hand()
 	def Play(self, deck):
-		print(f"{colours.OKCYAN}\nDealer's Hand:{colours.ENDC}")
+		print(f"{colours.FORE_BRIGHT_CYAN}\nDealer's Hand:{colours.ENDC}")
 		self.Hand.print()
 		if (self.Hand.evalAceLast() > 21):
-			print(f"{colours.OKGREEN}\nTotal Score = Bust...{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_GREEN}\nTotal Score = Bust...{colours.ENDC}")
 			return HandResult(self.Hand.score, len(self.Hand.cards))
 		elif (self.Hand.score == 21):
-			print(f"{colours.OKGREEN}\nTotal Score = 21!{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_GREEN}\nTotal Score = 21!{colours.ENDC}")
 			return HandResult(self.Hand.score, len(self.Hand.cards))
 		else:
-			print(f"{colours.OKGREEN}\nTotal Score = " + str(self.Hand.score) + f"{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_GREEN}\nTotal Score = " + str(self.Hand.score) + f"{colours.ENDC}")
 		if (self.Hand.score <= 16):
-			print(f"{colours.OKBLUE}\nDealer Hits!{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_BLUE}\nDealer Hits!{colours.ENDC}")
 			self.Hand.hit(deck)
 			return self.Play(deck)
 		else:
-			print(f"{colours.OKBLUE}\nDealer Stands!{colours.ENDC}")
+			print(f"{colours.FORE_BRIGHT_BLUE}\nDealer Stands!{colours.ENDC}")
 			return HandResult(self.Hand.score, len(self.Hand.cards))
 		
 #[Noah Panepinto (Oct.3 2021 {01:39})]
-	#Im'a do this one tommorrow. I am very tired. Sue me.
+	#Still couldnt be bothered.
 
 class BlackPack:
 	def __init__(self):
@@ -998,43 +1046,43 @@ class BlackPack:
 					print("\nPlease input a whole number.")
 			self.MinBet = minInt
 		self.Deck = Deck(decksInt)
-		print(f"{colours.OKGREEN}\nGreat! Let's shuffle up and play!{colours.ENDC}")
+		print(f"{colours.FORE_BRIGHT_GREEN}\nGreat! Let's shuffle up and play!{colours.ENDC}")
 		self.PlayRound()
 	def PlayRound(self):
 		if self.AutoShuffle:
 			self.Deck.shuffle()
 		else:
-			print(f"{colours.OKCYAN}\nDeck Remaining Size: {colours.ENDC}" + str(len(self.Deck.inPile)))
+			print(f"{colours.FORE_BRIGHT_CYAN}\nDeck Remaining Size: {colours.ENDC}" + str(len(self.Deck.inPile)))
 		betInt = 0
 		if self.Betting:
-			print(f"{colours.OKCYAN}\nBetting Cash Remaining: {colours.ENDC}" + str(self.PlayerCash))
+			print(f"{colours.FORE_BRIGHT_CYAN}\nBetting Cash Remaining: {colours.ENDC}" + str(self.PlayerCash))
 			if (self.PlayerCash <= 0):
-				print(f"{colours.WARNING}\nYou've gone broke. That's game over.\n{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_ORANGE}\nYou've gone broke. That's game over.\n{colours.ENDC}")
 				return 0
 			cont = False
 			while not cont:
-				bet = input(f"{colours.OKBLUE}\nHow much cash would you like to bet? {colours.ENDC}")
+				bet = input(f"{colours.FORE_BRIGHT_BLUE}\nHow much cash would you like to bet? {colours.ENDC}")
 				try:
 					betInt = int(bet)
 					if (betInt < self.MinBet):
-						print(f"{colours.WARNING}\nPlease input a number greater than {colours.ENDC}" + str(self.MinBet) + f"{colours.WARNING}.{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_ORANGE}\nPlease input a number greater than {colours.ENDC}" + str(self.MinBet) + f"{colours.FORE_BRIGHT_ORANGE}.{colours.ENDC}")
 					elif (betInt > self.MaxBet):
-						print(f"{colours.WARNING}\nPlease input a number less than {colours.ENDC}" + str(self.MaxBet) + f"{colours.WARNING}.{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_ORANGE}\nPlease input a number less than {colours.ENDC}" + str(self.MaxBet) + f"{colours.FORE_BRIGHT_ORANGE}.{colours.ENDC}")
 					elif (betInt > self.PlayerCash):
-						print(f"{colours.WARNING}\nPlease input a number less than or equal to your cash amount.{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_ORANGE}\nPlease input a number less than or equal to your cash amount.{colours.ENDC}")
 					else:
 						cont = True
 				except:
-					print(f"{colours.WARNING}\nPlease input a whole number.{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_ORANGE}\nPlease input a whole number.{colours.ENDC}")
 		self.Player.Hand[0].deal(self.Deck)
 		self.Dealer.Hand.deal(self.Deck)
-		print(f"{colours.OKCYAN}\nYour Hand:{colours.ENDC}")
+		print(f"{colours.FORE_BRIGHT_CYAN}\nYour Hand:{colours.ENDC}")
 		self.Player.Hand[0].print()
-		print(f"{colours.OKCYAN}\nDealer's Hand:{colours.ENDC}")
+		print(f"{colours.FORE_BRIGHT_CYAN}\nDealer's Hand:{colours.ENDC}")
 		self.Dealer.Hand.printHalf()
-		input(f"{colours.OKBLUE}\nHit enter for your turn.{colours.ENDC}")
+		input(f"{colours.FORE_BRIGHT_BLUE}\nHit enter for your turn.{colours.ENDC}")
 		playerScores = self.Player.Play(self.Deck, 0, self.Betting, self.PlayerCash, betInt)
-		input(f"{colours.OKBLUE}\nHit enter for the dealer's turn.{colours.ENDC}")
+		input(f"{colours.FORE_BRIGHT_BLUE}\nHit enter for the dealer's turn.{colours.ENDC}")
 		dealerScore = self.Dealer.Play(self.Deck)
 		for hand in self.Player.Hand:
 			hand.clear(self.Deck)
@@ -1046,65 +1094,65 @@ class BlackPack:
 		i = 0
 		for playerScore in playerScores:
 			if (dealerScore.Value == 21 and dealerScore.CardCount == 2):
-				print(f"{colours.OKCYAN}\nThe dealer got blackjack...{colours.ENDC}")
-				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
-				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}\nThe dealer got blackjack...{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
 				if self.Betting:
 					if not playerScore.DoubleDown:
 						self.PlayerCash -= betInt
-						print(f"{colours.OKCYAN}You lost your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_CYAN}You lost your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}.{colours.ENDC}")
 					else:
 						self.PlayerCash -= betInt * 2
-						print(f"{colours.OKCYAN}You lost double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}...{colours.ENDC}")
-					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash))
+						print(f"{colours.FORE_BRIGHT_CYAN}You lost double your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}...{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash))
 			elif (playerScore.Value == 21 and playerScore.CardCount == 2):
-				print(f"{colours.OKCYAN}\nYou got blackjack!{colours.ENDC}")
-				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
-				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}\nYou got blackjack!{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
 				if self.Betting:
 					self.PlayerCash += (betInt * 2)
-					print(f"{colours.OKCYAN}You won double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}!{colours.ENDC}")
-					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}You won double your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}!{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
 			elif ((playerScore.Value < 22 and dealerScore.Value > 21) or (playerScore.Value < 22 and playerScore.Value > dealerScore.Value)):
-				print(f"{colours.OKCYAN}\nYou beat the dealer!{colours.ENDC}")
-				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value) + f"{colours.ENDC}")
-				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value) + f"{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}\nYou beat the dealer!{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}Your score = {colours.ENDC}" + str(playerScore.Value) + f"{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value) + f"{colours.ENDC}")
 				if self.Betting:
 					if not playerScore.DoubleDown:
 						self.PlayerCash += betInt
-						print(f"{colours.OKCYAN}You won your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_CYAN}You won your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}.{colours.ENDC}")
 					else:
 						self.PlayerCash += betInt * 2
-						print(f"{colours.OKCYAN}You won double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
-					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_CYAN}You won double your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}.{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
 			elif (playerScore.Value < 22 and playerScore.Value == dealerScore.Value):			
-				print(f"{colours.OKCYAN}\nYou pushed with the dealer.{colours.ENDC}")
-				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
-				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}\nYou pushed with the dealer.{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
 				if self.Betting:
-					print(f"{colours.OKCYAN}Your money was returned.{colours.ENDC}")
-					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}Your money was returned.{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash) + f"{colours.ENDC}")
 			else:
-				print(f"{colours.OKCYAN}\nThe dealer beat you...{colours.ENDC}")
-				print(f"{colours.OKCYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
-				print(f"{colours.OKCYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}\nThe dealer beat you...{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_CYAN}Your score = {colours.ENDC}" + str(playerScore.Value))
+				print(f"{colours.FORE_BRIGHT_CYAN}Dealer's score = {colours.ENDC}" + str(dealerScore.Value))
 				if self.Betting:
 					if not playerScore.DoubleDown:
 						self.PlayerCash -= betInt
-						print(f"{colours.OKCYAN}You lost your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}.{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_CYAN}You lost your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}.{colours.ENDC}")
 					else:
 						self.PlayerCash -= betInt * 2
-						print(f"{colours.OKCYAN}You lost double your bet of {colours.ENDC}" + str(betInt) + f"{colours.OKCYAN}...{colours.ENDC}")
-					print(f"{colours.OKCYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash))
+						print(f"{colours.FORE_BRIGHT_CYAN}You lost double your bet of {colours.ENDC}" + str(betInt) + f"{colours.FORE_BRIGHT_CYAN}...{colours.ENDC}")
+					print(f"{colours.FORE_BRIGHT_CYAN}Cash remaining = {colours.ENDC}" + str(self.PlayerCash))
 			i += 1
 		if self.Betting:
 			if (self.PlayerCash <= 0):
-				print(f"{colours.WARNING}\nYou've gone broke. That's game over.\n{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_ORANGE}\nYou've gone broke. That's game over.\n{colours.ENDC}")
 				return 0
 		done = False
 		again = 0
 		while not done:
-			response = input(f"{colours.OKBLUE}\nPlay again? {colours.ENDC}(Y){colours.OKBLUE}es or {colours.ENDC}(N){colours.OKBLUE}o? - {colours.ENDC}")
+			response = input(f"{colours.FORE_BRIGHT_BLUE}\nPlay again? {colours.ENDC}(Y){colours.FORE_BRIGHT_BLUE}es or {colours.ENDC}(N){colours.FORE_BRIGHT_BLUE}o? - {colours.ENDC}")
 			for char in response:
 				if (char == "Y" or char == "y"):
 					again = 1
@@ -1115,22 +1163,23 @@ class BlackPack:
 					done = True
 					break
 			if (again == 0):
-				print(f"{colours.WARNING}\nInvalid input. Please input the letter in brackets for the option you want.{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_ORANGE}\nInvalid input. Please input the letter in brackets for the option you want.{colours.ENDC}")
 			elif (again == 1):
-				print(f"{colours.OKGREEN}\nAwesome! Let's deal them out again!{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_GREEN}\nAwesome! Let's deal them out again!{colours.ENDC}")
 				self.PlayRound()
 				done = True
 			else:
-				print(f"{colours.OKGREEN}\nThank you for playing!\n{colours.ENDC}")
+				print(f"{colours.FORE_BRIGHT_GREEN}\nThank you for playing!\n{colours.ENDC}")
 				if self.Betting:
 					if self.PlayerCash > self.InitialPlayerCash:
-						print(f"{colours.OKBLUE}You won {colours.ENDC}" + str(self.PlayerCash - self.InitialPlayerCash) + f"{colours.OKBLUE} today!\n{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_BLUE}You won {colours.ENDC}" + str(self.PlayerCash - self.InitialPlayerCash) + f"{colours.FORE_BRIGHT_BLUE} today!\n{colours.ENDC}")
 					elif self.PlayerCash < self.InitialPlayerCash:
-						print(f"{colours.OKBLUE}You lost {colours.ENDC}" + str(self.InitialPlayerCash - self.PlayerCash) + f"{colours.OKBLUE} today.\n{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_BLUE}You lost {colours.ENDC}" + str(self.InitialPlayerCash - self.PlayerCash) + f"{colours.FORE_BRIGHT_BLUE} today.\n{colours.ENDC}")
 					else:
-						print(f"{colours.OKBLUE}You broke even today.\n{colours.ENDC}")
+						print(f"{colours.FORE_BRIGHT_BLUE}You broke even today.\n{colours.ENDC}")
 				done = True
 				return 0
 
-game = BlackPack()
-game.PlayGame()
+if __name__ == '__main__':
+	game = BlackPack()
+	game.PlayGame()
