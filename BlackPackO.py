@@ -13,12 +13,12 @@
 from random import randint
 import socket
 
-#[Noah Panepinto (Oct.3 2021 {01:39})]
-	#Here I define several characters that will be appended to strings to chang their colours when printed.
-
-HOST     = '127.0.0.1'
+HOST = '127.0.0.1'
 SERV = 65533
 LIST = 65532
+
+#[Noah Panepinto (Oct.3 2021 {01:39})]
+	#Here I define several characters that will be appended to strings to chang their colours when printed.
 
 class colours:
 	ENDC                = '\033[0m'
@@ -924,8 +924,43 @@ class Dealer(Player):
 			print(f"{colours.FORE_BRIGHT_BLUE}\nDealer Stands!{colours.ENDC}")
 			return HandResult(self.Hand.score, len(self.Hand.cards))
 		
-#[Noah Panepinto (Oct.3 2021 {01:39})]
-	#Im'a do this one tommorrow. I am very tired. Sue me.
+#[Noah Panepinto (Dec.15 2021 {22:10})]
+	#Here I define a class which represents the game instance as a whole, I would like to one day generalize this into a CardGame class and derive the BlackPack class from that.
+		#The BlackPack class contains nine non static (instance) values:
+			#self.Deck; A Deck objeect which contains all of the cards that will be used within the game.
+			#self.Player; A Player object which represents the human player of the game.
+			#self.Dealer; A Dealer object which represents the AI dealer of the game.
+			#self.AutoShuffle; A boolean value which indicates whether the game will be played with autoshuffle enabled.
+			#self.Betting; A boolean value which indicated whether the game will be played with betting enabled.
+			#self.PlayerCash; An integer value which indicates how much money the player has at their disposal.
+			#self.InitialPlayerCash; An integer value that holds the amount of cash a player was holding at the beginning of a hand.
+			#self.MaxBet; An integer value that indicates the maximum amount of money that a player can bet on any given hand.
+			#self.MinBet; An integer value that indicates the minimum amount of money that a player can bet on any given hand.
+		#The BlackPack class contains two functions:
+			#PlayGame(); A function which:
+				#Asks the player how many decks they would like to play with, and sets self.Deck to be equal to a Deck Object containing the right number of cards.
+				#Asks the player if they would like to play with autoshuffle, and sets self.AutoShuffle accordingly.
+				#Asks the player if they would like to play with betting, and sets self.Betting accordingly. If they decide to play with betting;
+					#Asks the player how much money they would like to have available for betting, and sets self.PlayerCash accordingly.
+					#Asks the player for the largest bet they would like to be able to make, and sets self.MaxBet accordingly.
+					#Asks the player for the smallest bet they would like to be able to make, and sets self.MinBet accordingly.
+				#Calls the PlayRound() function.
+			#PlayRound(); A function Which:
+				#Shuffles the deck if self.AutoShuffle is True by calling shuffle() in self.Deck.
+				#Informs the player of the number of cards remaining in the inpile of the deck if self.AutoShuffle is False.
+				#If self.Beting is True;
+					#Informs the player of the value of self.PlayerCash, and ends the game if self.PlayerCash is equal to 0.
+					#Requests the amount of money the player would like to bet and checks that it exceeds neither self.MaxBet nor self.PlayerCash,
+						#and that it is equal to or greater than self.MinBet.
+				#Randomly draws two cards into the hand of both self.Player and self.Dealer by calling Hand.Deal() on self.Player's first hand and Hand.Deal() on self.Dealer.
+				#Shows both cards dealt to the player by calling Hand.print() on Self.Player's first deck, and the first card dealt to the dealer by calling Hand.printHalf() on self.Dealer.
+				#Calls Player.Play() for self.Player in order to have the player play their hand or hands.
+				#Calls Dealer.Play() for self.Dealer in order to have the dealer play their hand.
+				#Compares the result of the player's hand or hands to the dealer's hand and evalueats who wins on each hand, and if self.Betting is True:
+					#Calculates the amount of money won or lost on each hand and updates self.PlayerCash accordingly.
+					#Ends the game if self.PlayerCash is equal to 0.
+				#Asks the player if they would like to play again, and if so calls the PlayRound() function recursively, 
+					#otherwise if self.Betting is True informs the player of how much they lost or won, and exits.
 
 class BlackPack:
 	def __init__(self):
@@ -1176,5 +1211,6 @@ class BlackPack:
 				done = True
 				return 0
 
-game = BlackPack()
-game.PlayGame()
+if __name__ == '__main__':
+	game = BlackPack()
+	game.PlayGame()
