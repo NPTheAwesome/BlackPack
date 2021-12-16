@@ -11,13 +11,14 @@
 	#It can be installed on linux by placing the file in /usr/bin or any prefered bin folder, and can be ran by calling BlackPackO in bash.
 
 from random import randint
+import xml.etree.ElementTree as ET
 import socket
 
 HOST = '127.0.0.1'
 SERV = 65533
 LIST = 65532
 
-#[Noah Panepinto (Oct.3 2021 {01:39})]
+#[Noah Panepinto (Dec.16 2021 {01:39})]
 	#Here I define several characters that will be appended to strings to chang their colours when printed.
 
 class colours:
@@ -67,442 +68,6 @@ class colours:
 	BACK_BRIGHT_WHITE   = '\033[107m'
 
 #[Noah Panepinto (Oct.3 2021 {01:39})]
-	#Here I define several string arrays, which will contain the visual data used to represent each card within a standard deck of cards and the back of a standard card when printed.
-		#There are three seperate naming conventions used to name each representation, they are as follows:
-			#Back of Card Convention; This representation is called boc.
-			#Ace Card Convention; All Ace Cards are called aoX where X is the first letter of the name of the suite of the specific Card.
-			#Standard Card Convention; All Standard Cards, all Cards excluding Ace Cards and the Back of Card, 
-				#are called XYoZ where XY is the first two letters of the face value of the specific Card and where Z is the first letter of the name of the suite of the specific Card.
-		#The next 423 lines are dedicated to defining the visual representations of all of the cards in a standard deck.
-			#Yes seriously.
-				#Yes I could have put this in a seperate text file to make this code more readable, but I wrote this game in a week, on a cellphone. Cut me some slack would ya?
-
-boc  = [" ______  ",
-		"/######\\ ",
-		"|#######\\",
-		"|#######|",
-		"|#######|",
-		"|#######|",
-		"|#######|",
-       "\\#######/"]
-aos  = [" ______  ",
-		"/      \\ ",
-		"|A      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      A|",
-       "\\_______/"]
-aoc  = [" ______  ",
-		"/      \\ ",
-		"|A      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      A|",
-       "\\_______/"]
-aoh  = [" ______  ",
-		"/      \\ ",
-		"|A      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      A|",
-       "\\_______/"]
-aod  = [" ______  ",
-		"/      \\ ",
-		"|A      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      A|",
-       "\\_______/"]
-twos = [" ______  ",
-		"/      \\ ",
-		"|2      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      2|",
-       "\\_______/"]
-twoc = [" ______  ",
-		"/      \\ ",
-		"|2      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      2|",
-       "\\_______/"]
-twoh = [" ______  ",
-		"/      \\ ",
-		"|2      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      2|",
-       "\\_______/"]
-twod = [" ______  ",
-		"/      \\ ",
-		"|2      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      2|",
-       "\\_______/"]
-thos = [" ______  ",
-		"/      \\ ",
-		"|3      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      3|",
-       "\\_______/"]
-thoc = [" ______  ",
-		"/      \\ ",
-		"|3      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      3|",
-       "\\_______/"]
-thoh = [" ______  ",
-		"/      \\ ",
-		"|3      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      3|",
-       "\\_______/"]
-thod = [" ______  ",
-		"/      \\ ",
-		"|3      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      3|",
-       "\\_______/"]
-foos = [" ______  ",
-		"/      \\ ",
-		"|4      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      4|",
-       "\\_______/"]
-fooc = [" ______  ",
-		"/      \\ ",
-		"|4      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      4|",
-       "\\_______/"]
-fooh = [" ______  ",
-		"/      \\ ",
-		"|4      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      4|",
-       "\\_______/"]
-food = [" ______  ",
-		"/      \\ ",
-		"|4      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      4|",
-       "\\_______/"]
-fios = [" ______  ",
-		"/      \\ ",
-		"|5      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      5|",
-       "\\_______/"]
-fioc = [" ______  ",
-		"/      \\ ",
-		"|5      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      5|",
-       "\\_______/"]
-fioh = [" ______  ",
-		"/      \\ ",
-		"|5      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      5|",
-       "\\_______/"]
-fiod = [" ______  ",
-		"/      \\ ",
-		"|5      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      5|",
-       "\\_______/"]
-sios = [" ______  ",
-		"/      \\ ",
-		"|6      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      6|",
-       "\\_______/"]
-sioc = [" ______  ",
-		"/      \\ ",
-		"|6      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      6|",
-       "\\_______/"]
-sioh = [" ______  ",
-		"/      \\ ",
-		"|6      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      6|",
-       "\\_______/"]
-siod = [" ______  ",
-		"/      \\ ",
-		"|6      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      6|",
-       "\\_______/"]
-seos = [" ______  ",
-		"/      \\ ",
-		"|7      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      7|",
-       "\\_______/"]
-seoc = [" ______  ",
-		"/      \\ ",
-		"|7      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      7|",
-       "\\_______/"]
-seoh = [" ______  ",
-		"/      \\ ",
-		"|7      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      7|",
-       "\\_______/"]
-seod = [" ______  ",
-		"/      \\ ",
-		"|7      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      7|",
-       "\\_______/"]
-eios = [" ______  ",
-		"/      \\ ",
-		"|8      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      8|",
-       "\\_______/"]
-eioc = [" ______  ",
-		"/      \\ ",
-		"|8      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      8|",
-       "\\_______/"]
-eioh = [" ______  ",
-		"/      \\ ",
-		"|8      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      8|",
-       "\\_______/"]
-eiod = [" ______  ",
-		"/      \\ ",
-		"|8      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      8|",
-       "\\_______/"]
-nios = [" ______  ",
-		"/      \\ ",
-		"|9      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      9|",
-       "\\_______/"]
-nioc = [" ______  ",
-		"/      \\ ",
-		"|9      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      9|",
-       "\\_______/"]
-nioh = [" ______  ",
-		"/      \\ ",
-		"|9      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      9|",
-       "\\_______/"]
-niod = [" ______  ",
-		"/      \\ ",
-		"|9      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      9|",
-       "\\_______/"]
-teos = [" ______  ",
-		"/      \\ ",
-		"|X      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      X|",
-       "\\_______/"]
-teoc = [" ______  ",
-		"/      \\ ",
-		"|X      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      X|",
-       "\\_______/"]
-teoh = [" ______  ",
-		"/      \\ ",
-		"|X      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      X|",
-       "\\_______/"]
-teod = [" ______  ",
-		"/      \\ ",
-		"|X      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      X|",
-       "\\_______/"]
-jaos = [" ______  ",
-		"/      \\ ",
-		"|J      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      J|",
-       "\\_______/"]
-jaoc = [" ______  ",
-		"/      \\ ",
-		"|J      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      J|",
-       "\\_______/"]
-jaoh = [" ______  ",
-		"/      \\ ",
-		"|J      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      J|",
-       "\\_______/"]
-jaod = [" ______  ",
-		"/      \\ ",
-		"|J      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      J|",
-       "\\_______/"]
-quos = [" ______  ",
-		"/      \\ ",
-		"|Q      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      Q|",
-       "\\_______/"]
-quoc = [" ______  ",
-		"/      \\ ",
-		"|Q      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      Q|",
-       "\\_______/"]
-quoh = [" ______  ",
-		"/      \\ ",
-		"|Q      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      Q|",
-       "\\_______/"]
-quod = [" ______  ",
-		"/      \\ ",
-		"|Q      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      Q|",
-       "\\_______/"]
-kios = [" ______  ",
-		"/      \\ ",
-		"|K      \\",
-		"| Spades|",
-		"|       |",
-		"|Spades |",
-		"|      K|",
-       "\\_______/"]
-kioc = [" ______  ",
-		"/      \\ ",
-		"|K      \\",
-		"|  Clubs|",
-		"|       |",
-		"|Clubs  |",
-		"|      K|",
-       "\\_______/"]
-kioh = [" ______  ",
-		"/      \\ ",
-		"|K      \\",
-		"| Hearts|",
-		"|       |",
-		"|Hearts |",
-		"|      K|",
-       "\\_______/"]
-kiod = [" ______  ",
-		"/      \\ ",
-		"|K      \\",
-		"|  Dimes|",
-		"|       |",
-		"|Dimes  |",
-		"|      K|",
-       "\\_______/"]
-
-#[Noah Panepinto (Oct.3 2021 {01:39})]
 	#Here I define the classes that will represent Standard Cards (the BaseCard class) and Ace Cards (the AceCard class)
 		#Both the AceCard class is derived from the BaseCard class and as a result contain the same five non static (instance) values):
 			#self.value; An integer value representing the total added to your hand under normal circumstances:
@@ -522,21 +87,25 @@ kiod = [" ______  ",
 			#GetValue() will return 1 if score is greater than 10, and 11 if score is less than or equal to 10.
 
 class BaseCard:
-	def __init__(self, v, s, c, f):
+	def __init__(self, v, n, f):
 		self.value = v
-		self.suite = s
-		self.card = c
-		self.name = (c + " of " + s)
+		self.name = n
 		self.face = f
 	def GetValue(self, score):
 		return(self.value)
+	def __str__(self):
+		r = ""
+		i = 0
+		for line in self.face:
+			if not i == 0:
+				r += '\n'
+			r += line
+			i += 1
+		return r
 
 class AceCard(BaseCard): 
-	def __init__(self, s, f):
-		self.value = 11
-		self.suite = s
-		self.card = "Ace"
-		self.name = (self.card + " of" + s)
+	def __init__(self, n, f):
+		self.name = n
 		self.face = f
 	def GetValue(self, score):
 		if( score > 10 ):
@@ -544,114 +113,48 @@ class AceCard(BaseCard):
 		else:
 			return 11
 
-#[Noah Panepinto (Oct.3 2021 {01:39})]
-	#Here I define an array of BaseCard and AceCard classes which will represent one full standard deck.
+#[Noah Panepinto (Dec.16 2021 {01:30})]
+	#Here I define a static class containing all of the data for a full deck of cards, including the string representation of the back of a card.
+		#The Cards class contains two static (class) values:
+			#Cards.fd; an array containing BaseCard and AceCard Class Objects representing a full standard deck of playing cards.
+			#Cards.boc; an array of strings representing the back of a standard playing card.
+		#The Cards class contains one function, Load() which reads an XML File and populates Cards.fd and Cards.boc with the data within the XML File.
 
-fd = [
-	AceCard(
-		"Spades", aos),
-	AceCard(
-		"Clubs", aoc),
-	AceCard(
-		"Hearts", aoh),
-	AceCard(
-		"Diamonds", aod),
-	BaseCard(
-		2, "Spades", "Two", twos),
-	BaseCard(
-		2, "Clubs", "Two", twoc),
-	BaseCard(
-		2, "Hearts", "Two", twoh),
-	BaseCard(
-		2, "Diamonds", "Two", twod),
-	BaseCard(
-		3, "Spades", "Three", thos),
-	BaseCard(
-		3, "Clubs", "Three", thoc),
-	BaseCard(
-		3, "Hearts", "Three", thoh),
-	BaseCard(
-		3, "Diamonds", "Three", thod),
-	BaseCard(
-		4, "Spades", "Four", foos),
-	BaseCard(
-		4, "Clubs", "Four", fooc),
-	BaseCard(
-		4, "Hearts", "Four", fooh),
-	BaseCard(
-		4, "Diamonds", "Four", food),
-	BaseCard(
-		5, "Spades", "Five", fios),
-	BaseCard(
-		5, "Clubs", "Five", fioc),
-	BaseCard(
-		5, "Hearts", "Five", fioh),
-	BaseCard(
-		5, "Diamonds", "Five", fiod),
-	BaseCard(
-		6, "Spades", "Six", sios),
-	BaseCard(
-		6, "Clubs", "Six", sioc),
-	BaseCard(
-		6, "Hearts", "Six", sioh),
-	BaseCard(
-		6, "Diamonds", "Six", siod),
-	BaseCard(
-		7, "Spades", "Seven", seos),
-	BaseCard(
-		7, "Clubs", "Seven", seoc),
-	BaseCard(
-		7, "Hearts", "Seven", seoh),
-	BaseCard(
-		7, "Diamonds", "Seven", seod),
-	BaseCard(
-		8, "Spades", "Eight", eios),
-	BaseCard(
-		8, "Clubs", "Eight", eioc),
-	BaseCard(
-		8, "Hearts", "Eight", eioh),
-	BaseCard(
-		8, "Diamonds", "Eight", eiod),
-	BaseCard(
-		9, "Spades", "Nine", nios),
-	BaseCard(
-		9, "Clubs", "Nine", nioc),
-	BaseCard(
-		9, "Hearts", "Nine", nioh),
-	BaseCard(
-		9, "Diamonds", "Nine", niod),
-	BaseCard(
-		10, "Spades", "Ten", teos),
-	BaseCard(
-		10, "Clubs", "Ten", teoc),
-	BaseCard(
-		10, "Hearts", "Ten", teoh),
-	BaseCard(
-		10, "Diamonds", "Ten", teod),
-	BaseCard(
-		10, "Spades", "Jack", jaos),
-	BaseCard(
-		10, "Clubs", "Jack", jaoc),
-	BaseCard(
-		10, "Hearts", "Jack", jaoh),
-	BaseCard(
-		10, "Diamonds", "Jack", jaod),
-	BaseCard(
-		10, "Spades", "Queen", quos),
-	BaseCard(
-		10, "Clubs", "Queen", quoc),
-	BaseCard(
-		10, "Hearts", "Queen", quoh),
-	BaseCard(
-		10, "Diamonds", "Queen", quod),
-	BaseCard(
-		10, "Spades", "King", kios),
-	BaseCard(
-		10, "Clubs", "King", kioc),
-	BaseCard(
-		10, "Hearts", "King", kioh),
-	BaseCard(
-		10, "Diamonds", "King", kiod)]
+class Cards:
+	fd = []
+	boc = []
+	def Load(xmlFile):
+		full = []
+		back = []
+		tree = ET.parse(xmlFile)
+		root = tree.getroot()
+		i = 0
+		for item in root.findall('card'):
+			if item.find('ID').text == 'back':
+				faceX = item.find('face')
+				for line in faceX.findall('line'):
+					back.append(line.text)
+			elif item.find('ID').text == 'ace':
+				faceX = item.find('face')
+				face = []
+				for line in faceX.findall('line'):
+					face.append(line.text)
+				name = item.find('description').text
+				full.append(AceCard(name, face))
+			elif item.find('ID').text == 'base':
+				value = int(item.find('value').text)
+				faceX = item.find('face')
+				face = []
+				for line in faceX.findall('line'):
+					face.append(line.text)
+				name = item.find('description').text
+				full.append(BaseCard(value, name, face))
+			else: i += 1
+		if i > 0:
+			print('invalid Cards.xml')
+			exit(0)
+		Cards.fd = full
+		Cards.boc = back
 
 #[Noah Panepinto (Oct.3 2021 {01:39})]
 	#Here I define the class which will represent a deck of cards (the Deck class) which contains two static (class) values:
@@ -667,7 +170,7 @@ class Deck:
 	def __init__(self, decks):
 		i = 0
 		while i < decks:
-			self.inPile.extend(fd)
+			self.inPile.extend(Cards.fd)
 			i += 1
 	def shuffle(self):
 		print("\nShufflin' the deck!")
@@ -712,16 +215,16 @@ class Hand:
 		while (i < 8):
 			line = ""
 			line += (self.cards[0].face[i] + " ")
-			line += (boc[i] + " ")
+			line += (Cards.boc[i] + " ")
 			print (line)
 			i += 1
 	def evalAceLast(self):
 		r = 0
 		for card in self.cards:
-			if card.card != "Ace":
+			if card.GetValue(0) != 11:
 				r += card.GetValue(r)
 		for card in self.cards:
-			if card.card == "Ace":
+			if card.GetValue(0) == 11:
 				r += card.GetValue(r)
 		self.score = r
 		return(self.score)
@@ -1212,5 +715,6 @@ class BlackPack:
 				return 0
 
 if __name__ == '__main__':
+	Cards.Load('Cards.xml')
 	game = BlackPack()
 	game.PlayGame()

@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+<card>
+    <ID>back</ID>
+    <description>
+        Back of Card
+    </description>
+    <value>
+        0
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/######\ </line>
+		<line>|#######\</line>
+		<line>|#######|</line>
+		<line>|#######|</line>
+		<line>|#######|</line>
+		<line>|#######|</line>
+		<line>\#######/</line>
+    </face>
+</card>
+
+<card>
+    <ID>ace</ID>
+    <description>
+        Ace of Spades
+    </description>
+    <value>
+        11
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|A      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      A|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>ace</ID>
+    <description>
+        Ace of Clubs
+    </description>
+    <value>
+        11
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|A      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      A|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>ace</ID>
+    <description>
+        Ace of Hearts
+    </description>
+    <value>
+        11
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|A      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      A|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>ace</ID>
+    <description>
+        Ace of Dimes
+    </description>
+    <value>
+        11
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|A      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      A|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Two of Spades
+    </description>
+    <value>
+        2
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|2      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      2|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Two of Clubs
+    </description>
+    <value>
+        2
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|2      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      2|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Two of Hearts
+    </description>
+    <value>
+        2
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|2      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      2|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Two of Dimes
+    </description>
+    <value>
+        2
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|2      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      2|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Three of Spades
+    </description>
+    <value>
+        3
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|3      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      3|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Three of Clubs
+    </description>
+    <value>
+        3
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|3      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      3|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Three of Hearts
+    </description>
+    <value>
+        3
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|3      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      3|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Three of Dimes
+    </description>
+    <value>
+        3
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|3      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      3|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Four of Spades
+    </description>
+    <value>
+        4
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|4      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      4|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Four of Clubs
+    </description>
+    <value>
+        4
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|4      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      4|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Four of Hearts
+    </description>
+    <value>
+        4
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|4      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      4|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Four of Dimes
+    </description>
+    <value>
+        4
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|4      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      4|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+       Five of Spades
+    </description>
+    <value>
+        5
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|5      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      5|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Five of Clubs
+    </description>
+    <value>
+        5
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|5      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      5|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Five of Hearts
+    </description>
+    <value>
+        5
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|5      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      5|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Five of Dimes
+    </description>
+    <value>
+        5
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|5      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      5|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Six of Spades
+    </description>
+    <value>
+        6
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|6      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      6|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Six of Clubs
+    </description>
+    <value>
+        6
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|6      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      6|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Six of Hearts
+    </description>
+    <value>
+        6
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|6      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      6|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Six of Dimes
+    </description>
+    <value>
+        6
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|6      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      6|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Seven of Spades
+    </description>
+    <value>
+        7
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|7      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      7|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Seven of Clubs
+    </description>
+    <value>
+        7
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|7      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      7|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Seven of Hearts
+    </description>
+    <value>
+        7
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|7      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      7|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Seven of Dimes
+    </description>
+    <value>
+        7
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|7      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      7|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Eight of Spades
+    </description>
+    <value>
+        8
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|8      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      8|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Eight of Clubs
+    </description>
+    <value>
+        8
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|8      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      8|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Eight of Hearts
+    </description>
+    <value>
+        8
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|8      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      8|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Eight of Dimes
+    </description>
+    <value>
+        8
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|8      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      8|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Nine of Spades
+    </description>
+    <value>
+        9
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|9      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      9|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Nine of Clubs
+    </description>
+    <value>
+        9
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|9      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      9|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Nine of Hearts
+    </description>
+    <value>
+        9
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|9      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      9|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Nine of Dimes
+    </description>
+    <value>
+        9
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|9      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      9|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+       Ten of Spades
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|X      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      X|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Ten of Clubs
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|X      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      X|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Ten of Hearts
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|X      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      X|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Ten of Dimes
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|X      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      X|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Jack of Spades
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|J      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      J|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Jack of Clubs
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|J      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      J|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Jack of Hearts
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|J      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      J|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Jack of Dimes
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|J      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      J|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        Queen of Spades
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|Q      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      Q|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Queen of Clubs
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|Q      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      Q|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Queen of Hearts
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|Q      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      Q|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        Queen of Dimes
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|Q      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      Q|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+<card>
+    <ID>base</ID>
+    <description>
+        King of Spades
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|K      \</line>
+		<line>| Spades|</line>
+		<line>|       |</line>
+		<line>|Spades |</line>
+		<line>|      K|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        King of Clubs
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|K      \</line>
+		<line>|  Clubs|</line>
+		<line>|       |</line>
+		<line>|Clubs  |</line>
+		<line>|      K|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        King of Hearts
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|K      \</line>
+		<line>| Hearts|</line>
+		<line>|       |</line>
+		<line>|Hearts |</line>
+		<line>|      K|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+<card>
+    <ID>base</ID>
+    <description>
+        King of Dimes
+    </description>
+    <value>
+        10
+    </value>
+    <face>
+        <line> ______  </line>
+		<line>/      \ </line>
+		<line>|K      \</line>
+		<line>|  Dimes|</line>
+		<line>|       |</line>
+		<line>|Dimes  |</line>
+		<line>|      K|</line>
+		<line>\_______/</line>
+    </face>
+</card>
+
+</metadata>
